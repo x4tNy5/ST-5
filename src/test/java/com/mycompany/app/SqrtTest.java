@@ -54,10 +54,19 @@ class SqrtTest {
     }
 
     @Test
-    void improveMovesGuessCloserToRoot() {
-        double rough = 1.0;
-        double refined = sqrt.improve(rough, INPUT);
-        assertTrue(Math.abs(refined * refined - INPUT) < Math.abs(rough * rough - INPUT));
+    void improveReturnsAverageOfGuessAndQuotient() {
+        double guess = 3.0;
+        double quotient = INPUT / guess;
+        assertEquals(sqrt.average(guess, quotient), sqrt.improve(guess, INPUT), 1e-12);
+    }
+
+    @Test
+    void improveNarrowsBracketAroundRoot() {
+        double guess = 1.0;
+        double partner = INPUT / guess;
+        double refined = sqrt.improve(guess, INPUT);
+        assertTrue(refined >= Math.min(guess, partner));
+        assertTrue(refined <= Math.max(guess, partner));
     }
 
     @Test
